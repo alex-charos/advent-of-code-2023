@@ -17,7 +17,13 @@ public class Game {
 	public int getGameNumber() {
 		return gameNumber;
 	}
+	
+	public int minPower() {
+		return Arrays.asList(Colour.values()).stream().mapToInt(this::maxInColour).reduce(1, (a, b) -> a * b);
+		
+	}
 
+	//Maximum numbers of balls in specific colour
 	public int maxInColour(Colour c) {
 		return this.setOfCubes.stream().map(SetOfCubes::getCombos).flatMap(List::stream)
 				.filter(p -> p.getColour().equals(c)).mapToInt(Combo::getCount).max().orElse(0);
@@ -67,10 +73,7 @@ public class Game {
 		}
 
 		public boolean canHandle(Colour c, int count) {
-			boolean s = this.colour.equals(c) && count >= this.count;
-			// System.out.println("I am :" + this.toString() + " and can hanadle " + c + " "
-			// + count + ":" + s);
-			return s;
+			return this.colour.equals(c) && count >= this.count;
 		}
 
 		public Colour getColour() {
