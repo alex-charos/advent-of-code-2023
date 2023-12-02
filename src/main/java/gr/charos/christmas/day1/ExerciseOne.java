@@ -1,29 +1,23 @@
 package gr.charos.christmas.day1;
 
-import java.io.BufferedReader;
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import gr.charos.christmas.Utils;
 
 public class ExerciseOne {
 
 	public static void main(String args[]) throws IOException {
-
-		System.out.println(new ExerciseOne(loadLines()).calculateAnswer());
+		int correct = 55386;
+		int calculated = new ExerciseOne(Utils.loadLines(ExerciseOne.class)).calculateAnswer();
+		
+		if (correct !=calculated) {
+			System.err.println("Wrong answer!");
+		}
+		
 	}
 
-	private static List<String> loadLines() {
-		InputStream resource = ExerciseTwo.class.getResourceAsStream("input.txt");
-		List<String> doc = new BufferedReader(new InputStreamReader(resource, StandardCharsets.UTF_8)).lines()
-				.collect(Collectors.toList());
-		return doc;
-
-	}
 
 	private final List<String> lines;
 

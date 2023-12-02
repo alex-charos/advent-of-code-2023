@@ -1,14 +1,10 @@
 package gr.charos.christmas.day1;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import gr.charos.christmas.Utils;
 
 public class ExerciseTwo {
 	private static final List<Number> LITERAL_NUMBERS = Arrays.asList(	
@@ -25,22 +21,14 @@ public class ExerciseTwo {
 		);	
 	
 	public static void main(String args[]) throws IOException {
-		List<String> entries = loadLines();
+		int correct = 54824;
+		int calculated =  new ExerciseTwo(Utils.loadLines(ExerciseTwo.class)).calculateAnswer();
 		
-		System.out.println( new ExerciseTwo(entries).calculateAnswer());
-
+		if (correct !=calculated) {
+			System.err.println("Wrong answer!");
+		}
 		
 	}
-	
-	private static List<String> loadLines() {
-		InputStream resource = ExerciseTwo.class.getResourceAsStream("input.txt");
-		 List<String> doc =
-			      new BufferedReader(new InputStreamReader(resource,
-			          StandardCharsets.UTF_8)).lines().collect(Collectors.toList());
-		 return doc;
-			 
-	}
-	
 	private final List<String> lines;
 
 	public ExerciseTwo(List<String> lines) {
@@ -64,12 +52,10 @@ public class ExerciseTwo {
 	//scans for a number forward (literal or numeric value)
 	private String findFirstNumber(String line) {
 		int pos =0;
-		List<NumberPos> numbers = new ArrayList<>();
 		while (pos < line.length()) {
 			for (Number n : LITERAL_NUMBERS) {
 				int np = n.isAtStartOf(line.substring(pos));
 				if (np>0) {
-					numbers.add(new NumberPos(n, pos));
 					pos+=np;
 					return n.asString;
 				} 
@@ -83,12 +69,10 @@ public class ExerciseTwo {
 	//scans for a number backwards (literal or numeric value)
 	private String findLastNumber(String line) {
 		int pos =line.length();
-		List<NumberPos> numbers = new ArrayList<>();
 		while (pos > 0) {
 			for (Number n : LITERAL_NUMBERS) {
 				int np = n.isAtEndOf(line.substring(0, pos));
 				if (np>0) {
-					numbers.add(new NumberPos(n, pos));
 					pos-=np;
 					return n.asString;
 				} 
@@ -102,14 +86,13 @@ public class ExerciseTwo {
 	
 	public static class Number {
 		private final String literal;
-		private final int number;
+	
 		private final int charNum;
 		private final String asString;
 		
 		public Number(String literal, int number, int charNum, String asString) {
 			
 			this.literal = literal;
-			this.number = number;
 			this.charNum = charNum;
 			this.asString = asString;
 		}
@@ -138,16 +121,6 @@ public class ExerciseTwo {
 		}
 	}
 	
-	//Holder class for a number and an int
-	static class NumberPos {
-		private final Number number;
-		private final int position;
-		public NumberPos(Number number, int position) {
-			this.number = number;
-			this.position = position;
-		}
-		
-		
-	}
+
 
 }
