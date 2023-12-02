@@ -1,4 +1,4 @@
-package gr.charos.christmas;
+package gr.charos.christmas.day1;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AdventDay1Exercise2 {
+public class ExerciseTwo {
 	private static final List<Number> LITERAL_NUMBERS = Arrays.asList(	
 			new Number("zero", 0, 48, "0"),
 			new Number("one", 1, 49, "1"), 
@@ -27,13 +27,13 @@ public class AdventDay1Exercise2 {
 	public static void main(String args[]) throws IOException {
 		List<String> entries = loadLines();
 		
-		System.out.println( new AdventDay1Exercise2(entries).calculateAnswer());
+		System.out.println( new ExerciseTwo(entries).calculateAnswer());
 
 		
 	}
 	
 	private static List<String> loadLines() {
-		InputStream resource = AdventDay1Exercise2.class.getResourceAsStream("day1.txt");
+		InputStream resource = ExerciseTwo.class.getResourceAsStream("input.txt");
 		 List<String> doc =
 			      new BufferedReader(new InputStreamReader(resource,
 			          StandardCharsets.UTF_8)).lines().collect(Collectors.toList());
@@ -43,7 +43,7 @@ public class AdventDay1Exercise2 {
 	
 	private final List<String> lines;
 
-	public AdventDay1Exercise2(List<String> lines) {
+	public ExerciseTwo(List<String> lines) {
 	
 		this.lines = lines;
 	}

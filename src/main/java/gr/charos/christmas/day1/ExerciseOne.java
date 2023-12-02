@@ -1,4 +1,4 @@
-package gr.charos.christmas;
+package gr.charos.christmas.day1;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,15 +10,15 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AdventDay1 {
+public class ExerciseOne {
 
 	public static void main(String args[]) throws IOException {
 
-		System.out.println(new AdventDay1(loadLines()).calculateAnswer());
+		System.out.println(new ExerciseOne(loadLines()).calculateAnswer());
 	}
 
 	private static List<String> loadLines() {
-		InputStream resource = AdventDay1Exercise2.class.getResourceAsStream("day1.txt");
+		InputStream resource = ExerciseTwo.class.getResourceAsStream("input.txt");
 		List<String> doc = new BufferedReader(new InputStreamReader(resource, StandardCharsets.UTF_8)).lines()
 				.collect(Collectors.toList());
 		return doc;
@@ -27,13 +27,13 @@ public class AdventDay1 {
 
 	private final List<String> lines;
 
-	public AdventDay1(List<String> lines) {
+	public ExerciseOne(List<String> lines) {
 
 		this.lines = lines;
 	}
 
 	public int calculateAnswer() {
-		return lines.stream().mapToInt(AdventDay1::sumFirstAndLast).sum();
+		return lines.stream().mapToInt(ExerciseOne::sumFirstAndLast).sum();
 
 	}
 
@@ -42,7 +42,7 @@ public class AdventDay1 {
 	}
 
 	private static int findFirstNumber(String line) {
-		int firstNum = line.chars().dropWhile(AdventDay1::isNotDigit).findFirst().getAsInt();
+		int firstNum = line.chars().dropWhile(ExerciseOne::isNotDigit).findFirst().getAsInt();
 		return Integer.parseInt(String.valueOf((char) firstNum));
 
 	}
