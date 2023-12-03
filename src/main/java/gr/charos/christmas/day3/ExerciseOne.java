@@ -1,17 +1,37 @@
 package gr.charos.christmas.day3;
 
+import static gr.charos.christmas.Utils.isDigit;
+import static gr.charos.christmas.Utils.isSymbol;
+import static gr.charos.christmas.Utils.loadLines;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import gr.charos.christmas.Utils;
 
 public class ExerciseOne {
 
 	
-	//539590 is correct 
-	public static void main(String args[]) {
-		List<String> lines =  Utils.loadLines(ExerciseOne.class);
+		public static void main(String args[]) {
+		List<String> lines =  loadLines(ExerciseOne.class);
 		
+		int correct =539590;
+		int calculated = new ExerciseOne(lines).calculateAnswer() ;
+		
+		
+		if (correct !=calculated) {
+			System.err.println("Wrong answer!");
+		}
+		
+	}
+	
+	private final List<String> lines;
+	
+	
+	public ExerciseOne(List<String> lines) {
+		this.lines = lines;
+	}
+	
+	public int calculateAnswer() {
 		List<String> numbers = new ArrayList<String>();
 		for (int i = 0; i < lines.size(); i++ ) {
 			
@@ -101,17 +121,8 @@ public class ExerciseOne {
 
 		}
 		
-		System.out.println( numbers.stream().mapToInt(Integer::parseInt).sum());
-		
+		return numbers.stream().mapToInt(Integer::parseInt).sum();
 	}
-	
-	//Non letter (a-z,A-Z), non period (.) ascii char defined as symbol
-	private static boolean isSymbol(char c ) {
-		return (c > 33  && c<=126) && (c != 46) && ( c <65 || c >91) && (c <97 || c >122);
-	}
-	
-	
-	private static boolean isDigit(char c) {
-		return  c >= 48 && c <= 57;
-	} 
+
+
 }

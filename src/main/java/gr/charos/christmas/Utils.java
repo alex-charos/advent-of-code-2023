@@ -23,6 +23,15 @@ public class Utils {
 		return loadLines(c, "input.txt");
 
 	}
+	
+	public static boolean isDigit(char c) {
+		return c >= 48 && c <= 57;
+	}
+	
+	// Non letter (a-z,A-Z), non period (.) ascii char defined as symbol
+	public static boolean isSymbol(char c) {
+		return (c > 33 && c <= 126) && (c != 46) && (c < 65 || c > 91) && (c < 97 || c > 122);
+	}
 
 
 }
