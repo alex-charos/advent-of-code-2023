@@ -7,6 +7,7 @@ import gr.charos.christmas.Utils;
 public class ExerciseOne {
 	
 	
+	//correct answer:650599855
 	public static void main(String args[]) {
 		List<String> lines = Utils.loadLines(ExerciseOne.class);
 		

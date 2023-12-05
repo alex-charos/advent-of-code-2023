@@ -3,8 +3,10 @@ package gr.charos.christmas.day5;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 public class Tableau {
 	List<Long> seeds; 
@@ -30,6 +32,7 @@ public class Tableau {
 		this.temperatureToHumidityMap = temperatureToHumidityMap;
 		this.humidityToLocationMap = humidityToLocationMap;
 	}
+	
 
 	public Long minLocation() {
 		return seedsToLocation().stream().mapToLong(Long::valueOf).min().orElseThrow();
@@ -46,6 +49,19 @@ public class Tableau {
 		/* to location */	.map(p -> humidityToLocationMap.stream().map(soil -> soil.calculateDestination(p)).filter(pp-> pp>-1).findFirst().orElse(p))
 		.collect(Collectors.toList());
 		
+	}
+	public Long getLocation(Long seed) {
+		List<Long> tt = new ArrayList<Long>();
+		tt.add(seed);
+		return tt.stream()
+				/* to soil */	.map(p -> seedToSoilMap.stream().map(soil -> soil.calculateDestination(p)).filter(pp-> pp>-1).findFirst().orElse(p))
+				/* to fertilizer */	.map(p -> soilToFertilizerMap.stream().map(soil -> soil.calculateDestination(p)).filter(pp-> pp>-1).findFirst().orElse(p))
+				/* to water */	.map(p -> fertilizerToWaterMap.stream().map(soil -> soil.calculateDestination(p)).filter(pp-> pp>-1).findFirst().orElse(p))
+				/* to light */	.map(p -> waterToLightMap.stream().map(soil -> soil.calculateDestination(p)).filter(pp-> pp>-1).findFirst().orElse(p))
+				/* to temperature */	.map(p -> lightToTemperatureMap.stream().map(soil -> soil.calculateDestination(p)).filter(pp-> pp>-1).findFirst().orElse(p))
+				/* to humidity */	.map(p -> temperatureToHumidityMap.stream().map(soil -> soil.calculateDestination(p)).filter(pp-> pp>-1).findFirst().orElse(p))
+				/* to location */	.map(p -> humidityToLocationMap.stream().map(soil -> soil.calculateDestination(p)).filter(pp-> pp>-1).findFirst().orElse(p))
+				.findFirst().get();
 	}
 	
 	
