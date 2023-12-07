@@ -2,25 +2,28 @@ package gr.charos.christmas.day7;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 public class Hand implements Comparable<Hand> {
-	
 
 	
 
 	private final int bid;
 	private final List<Card> cards;
 	private final Type type;
+	private final boolean useJoker;
 	
 	
-	
-	public Hand(List<Card> cards, int bid) {
+	public Hand(List<Card> cards, int bid, boolean useJoker) {
 		this.cards = cards;
-		this.type = Type.ofHand(this);
 		this.bid = bid;
+		this.useJoker = useJoker;
+		this.type = Type.ofHand(this);
+		
 	}
 	
 	public boolean isRankedHigherThan(Hand h) {
@@ -71,15 +74,15 @@ public class Hand implements Comparable<Hand> {
 		return "Hand [bid=" + bid + ", cards=" + cards + ", type=" + type + "]";
 	}
 
-	public static Hand of(String s) {
+	public static Hand of(String s, boolean useJoker) {
 		String[] split = s.split(" ");
-		List<Card> c = new ArrayList<Hand.Card>();
+		List<Card> c = new ArrayList<Card>();
 		for (int i =0;i<split[0].length();i++) {
-			c.add(Card.of(split[0].substring(i,i+1)));
+			c.add(Card.of(split[0].substring(i,i+1), useJoker));
 		}
 		int bid = Integer.parseInt(split[1]);
 		
-		return new Hand(c,bid);
+		return new Hand(c,bid, useJoker);
 	}
 
 
@@ -87,7 +90,7 @@ public class Hand implements Comparable<Hand> {
 		A("A", 13),
 		K("K",12), 
 		Q("Q",11), 
-		J("J",10), 
+		J("J",10),  
 		T("T",9), 
 		NINE("9",8), 
 		EIGHT("8",7), 
@@ -96,7 +99,8 @@ public class Hand implements Comparable<Hand> {
 		FIVE("5",4), 
 		FOUR("4", 3), 
 		THREE("3",2),
-		TWO("2",1);
+		TWO("2",1),
+		JOKER("J",0);
 		
 		
 		private String sign;
@@ -110,9 +114,11 @@ public class Hand implements Comparable<Hand> {
 			return sign;
 		}
 		
-		public static Card of(String s) {
-		
+		public static Card of(String s, boolean useJoker) {
+			
+			
 			return Arrays.asList(Card.values()).stream()
+					.filter(p-> (useJoker && !J.equals(p))  || (!useJoker && !JOKER.equals(p)))
 					.filter(p->{ System.out.println(p.sign + " = " + s+ " = "+ p.sign.equalsIgnoreCase(s)); return p.sign.equalsIgnoreCase(s);}).findFirst().get();
 		}
 		
@@ -136,8 +142,33 @@ public class Hand implements Comparable<Hand> {
 			List<Card> hand = h.cards();
 			Map<String, List<Card>> grouped = hand.stream().collect(Collectors.groupingBy(Card::sign));
 			
+			var jokers = grouped.get("J");
+			
+			if (h.useJoker && jokers !=null && jokers.size() == 5) {
+				return FIVE_OF_A_KIND;
+			}
+			
 			var entryAsList = new ArrayList<>(grouped.entrySet());
 			
+			entryAsList.sort( new Comparator<Entry<String, List<Card>>>() {
+
+				@Override
+				public int compare(Entry<String, List<Card>> o1, Entry<String, List<Card>> o2) {
+					if (o1.getValue().size() > o2.getValue().size()) {
+						return -1;
+					}
+					if (o2.getValue().size() > o1.getValue().size()) {
+						return 1;
+					}
+					return 0;
+				}
+				
+			});
+
+			if (h.useJoker && jokers!=null) {
+				entryAsList.removeIf(p->p.getKey().equals("J"));
+				entryAsList.get(0).getValue().addAll(jokers);
+			}
 			if (entryAsList.size() == 1) {
 				//all fives
 				return FIVE_OF_A_KIND;
