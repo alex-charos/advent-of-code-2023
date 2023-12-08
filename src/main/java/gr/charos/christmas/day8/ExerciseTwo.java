@@ -34,9 +34,7 @@ public class ExerciseTwo {
 			if (currentNodes.isEmpty()) {
 				allZ = true;
 			}
-			//allZ = currentNodes.stream().allMatch(p->p.getName().endsWith("Z"));
-			
-			System.out.println(count);
+
 			
 		}
 		List<Long> counts = nodePerCount.values().stream().map(Integer::longValue).collect(Collectors.toList());
