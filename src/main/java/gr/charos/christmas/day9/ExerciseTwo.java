@@ -7,11 +7,11 @@ import java.util.stream.Collectors;
 
 import gr.charos.christmas.Utils;
 
-public class ExerciseOne {
+public class ExerciseTwo {
 	
-	//2043183816
+	//1118 
 	public static void main(String args[]) {
-		List<String> lines =Utils.loadLines(ExerciseOne.class);
+		List<String> lines =Utils.loadLines(ExerciseTwo.class);
 		
 		List<Integer> sums = new ArrayList<Integer>();
 		for (String s : lines) {
@@ -28,14 +28,15 @@ public class ExerciseOne {
 			int toAddBelow = 0;
 			for (int i = history.size()-1; i >=0; i--) {
 				List<Integer> comp = history.get(i);
-				int toAdd = comp.get(comp.size()-1);
-				int tmp = toAdd+toAddBelow;
-				comp.add(tmp);
+				int toAdd = comp.get(0);
+				int tmp = toAdd-toAddBelow;
+				comp.add(0, tmp);
 				toAddBelow = tmp;
 			}
 			
 			
 			sums.add(toAddBelow);
+			System.out.println(history);
 			
 		}
 		System.out.println(sums.stream().mapToInt(Integer::valueOf).sum());
@@ -52,5 +53,4 @@ public class ExerciseOne {
 		}
 		return diffs;
 	}
-
 }
