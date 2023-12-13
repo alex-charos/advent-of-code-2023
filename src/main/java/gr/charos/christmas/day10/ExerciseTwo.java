@@ -6,9 +6,9 @@ import java.util.List;
 import gr.charos.christmas.Utils;
 import gr.charos.christmas.day10.Maze.Position;
 
-public class ExerciseOne {
+public class ExerciseTwo {
 	
-	//7097
+	//355 
 	public static void main(String args[]) {
 		List<String> lines = Utils.loadLines(ExerciseOne.class);
 		
@@ -20,11 +20,29 @@ public class ExerciseOne {
 			}
 		
 		}
-		Maze m = new Maze(positions, lines.get(0).length() , lines.size());
+		Maze m = new Maze(positions, lines.get(0).length()-1, lines.size()-1);
 		m.calculateMainLoop();
-		m.positions.sort(null);
-		System.out.println(m.positions.get(0).getStepsFromStartingPosition());
 		
+		m.onLoopsRight.forEach(System.out::println);
+		System.out.println("----------");
+		m.onLoopsLeft.forEach(System.out::println);
+		
+		m.onLoopsLeft.removeIf(m.onLoopsRight::contains);
+		m.onLoopsRight.removeIf(m.onLoopsLeft::contains);
+		
+		boolean rightIsOut = m.onLoopsRight.stream().anyMatch(p->m.isEdge(p));
+		
+		if (rightIsOut) {
+			System.out.println(m.onLoopsLeft.size());	
+		} else {
+			System.out.println(m.onLoopsRight.size());
+		}
+		
+		
+		
+		
+		
+
 		
 	}
 
