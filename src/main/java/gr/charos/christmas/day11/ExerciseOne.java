@@ -10,6 +10,7 @@ import gr.charos.christmas.day11.PointInSpace.Combinations;
 public class ExerciseOne {
 	
 
+	//9605127
 	public static void main(String args[]) {
 		List<String> lines = Utils.loadLines(ExerciseOne.class);
 
