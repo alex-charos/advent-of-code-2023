@@ -19,6 +19,10 @@ public class Utils {
 
 	}
 	
+	public static String addChar(String str, String ch, int position) {
+	    return str.substring(0, position) + ch + str.substring(position);
+	}
+	
 	public  static List<String> loadLines(Class c) {
 		return loadLines(c, "input.txt");
 
